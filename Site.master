@@ -45,11 +45,11 @@
     <div data-role="panel" id="sidemenupanel" data-position="left" data-display="reveal">
     <!-- panel content goes here -->
         <div data-role="controlgroup">
-            <a href="" data-role="button">Customers</a>
-            <a href="" data-role="button">Sales Order</a>
-            <a href="" data-role="button">Vendors</a>
-            <a href="" data-role="button">Purchase Order</a>
-            <a href="" data-role="button">Inventory</a>
+            <a href="Customer.aspx" data-role="button">Customers</a>
+            <a href="SalesOrder.aspx" data-role="button">Sales Order</a>
+            <a href="Vendor.aspx" data-role="button">Vendors</a>
+            <a href="PurchaseOrder.aspx" data-role="button">Purchase Order</a>
+            <a href="Inventory.aspx" data-role="button">Inventory</a>
 
         </div>
         <br />
