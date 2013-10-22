@@ -4,8 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Optimization;
 
-namespace FinalProject
-{
+
     public class BundleConfig
     {
         // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254726
@@ -33,4 +32,3 @@ namespace FinalProject
                 "~/Scripts/modernizr-*"));
         }
     }
-}

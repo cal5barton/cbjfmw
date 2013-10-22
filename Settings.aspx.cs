@@ -9,6 +9,12 @@ public partial class Settings : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        FishbowlServer fbServer = new FishbowlServer();
+        fbServer.Connect();
 
+        if (fbServer.serverMessage != "" && fbServer.serverMessage != null)
+        {
+            Response.Write("<script>alert(" +  fbServer.serverMessage + ");</script>");
+        }
     }
 }
