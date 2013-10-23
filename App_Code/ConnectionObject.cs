@@ -6,7 +6,8 @@ using System.Net.Sockets;
 using System.Net;
 
 
-    class ConnectionObject {
+    class ConnectionObject 
+    {
         private TcpClient tc;
         private NetworkStream tcS;
 
@@ -20,8 +21,9 @@ using System.Net;
         /**
          * Create the server connection
          */
-        public ConnectionObject() {
-            tc = new TcpClient("161.28.118.41", 28192);
+        public ConnectionObject(string serverIP, int port) 
+        {
+            tc = new TcpClient(serverIP, port);
             tcS = tc.GetStream();
 
             bw = new EndianBinaryWriter(new BigEndianBitConverter(), tcS);

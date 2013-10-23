@@ -13,18 +13,18 @@ using System.IO;
 
 public class FishbowlServer
 {
-    private string key { get; set; }
-    private string loginCommand { get; set; }
+    public string key { get; set; }
     public string serverMessage { get; set; }
+    private string loginCommand { get; set; }
 
 
-    public void Connect()
+    public void Connect(string serverIP, int port, string username, string password, string command)
     {
         key = "";
 
         //XML Login String
-        loginCommand = createLoginXML("admin", "admin");
-        ConnectionObject connectionObject = new ConnectionObject();
+        loginCommand = createLoginXML(username, password);
+        ConnectionObject connectionObject = new ConnectionObject(serverIP, port);
 
         //Send Login Command once to get Fishbowl Server Application to recoginize connection attempt
         //or pull the key off the line if connection is already established
@@ -36,10 +36,23 @@ public class FishbowlServer
             {
                 throw new System.ArgumentException("Please accept the connection under integrated applications on the Fishbowl Server application");
             }
+
         }
         catch (Exception ex)
         {
             serverMessage = ex.Message;
+            
+            key = pullKey(connectionObject.sendCommand(loginCommand));
+            
+        }
+
+        if (key != "null" && command != null && command != "")
+        {
+            if (command == "customerList")
+            {
+                string customerList = connectionObject.sendCommand(listCustomerName(key));
+               
+            }
         }
 
     }
@@ -84,6 +97,13 @@ public class FishbowlServer
             }
         }
         return key;
+    }
+
+    //Customer Name List Call -- Displays a list of all customers
+    // The following generates different querries 
+    private static string listCustomerName(string key)
+    {
+        return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><CustomerNameListRq></CustomerNameListRq></FbiMsgsRq></FbiXml>";
     }
 
 }
