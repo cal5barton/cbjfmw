@@ -13,8 +13,9 @@
     <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
 
     <!-- jquery mobile functions -->
-    $( "#sidemenupanel" ).panel( "open" , optionsHash );
-
+    <script>
+        $( "#sidemenupanel" ).panel( "open" , optionsHash );
+    </script>
     <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
 </head>
 <body>
