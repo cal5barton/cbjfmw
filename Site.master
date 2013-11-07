@@ -19,14 +19,14 @@
 </head>
 <body>
 
-<div class="page" data-role="page">
+<div id="masterPage" class="page" data-role="page">
 	<%--<div class="ui-header" data-role="header">
 		<div class="title">
 			<h1><%: Page.Title %></h1>
 		</div>
 	<!-- menu control removed for brevity  -->
 	</div>--%>
-    <div data-role="header">
+    <div data-role="header" data-position="fixed">
         
         <a href="#sidemenupanel" data-transition="fade" data-role="button" data-icon="bars" data-iconpos="notext" ></a>
             
@@ -34,10 +34,11 @@
         <h1><%: Page.Title %></h1>
         
     </div>
-<div class="main" data-role="content">
-	<asp:ContentPlaceHolder ID="MainContent" runat="server"/>
-</div>
-<div data-role="footer" data-position="fixed" data-id="bottomnav">
+    <div class="main" data-role="content">
+	    <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+    </div>
+
+    <div data-role="footer" data-position="fixed" data-id="bottomnav">
 		<div data-role="navbar">
 			<asp:ContentPlaceHolder ID="BottomNavContent" runat="server" />
 		</div>
