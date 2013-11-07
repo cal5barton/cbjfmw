@@ -4,9 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Membership.OpenAuth;
 
-namespace FinalProject
-{
-    public static class AuthConfig
+ public static class AuthConfig
     {
         public static void RegisterOpenAuth()
         {
@@ -28,4 +26,3 @@ namespace FinalProject
             //OpenAuth.AuthenticationClients.AddGoogle();
         }
     }
-}

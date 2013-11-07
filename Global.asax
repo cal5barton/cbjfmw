@@ -1,5 +1,4 @@
 ﻿<%@ Application Language="C#" %>
-<%@ Import Namespace="FinalProject" %>
 <%@ Import Namespace="System.Web.Optimization" %>
 
 <script runat="server">
