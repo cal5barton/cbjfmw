@@ -18,6 +18,10 @@ public class Address
     public Boolean Residential { get; set; }
     public string Type { get; set; }
 
+    public State addressState { get; set; }
+    public Country addressCountry { get; set; }
+    public AddressInformation addressInformation { get; set; }
+
     public class TempAccount
     {
         public int ID { get; set; }
@@ -103,6 +107,9 @@ public class Customer
     public int ParentID { get; set; }
     public int PipelineAccount { get; set; }
     public string URL { get; set; }
+
+    public List<Address> customerAddresses { get; set; }
+    public CustomField customerCF { get; set; }
 }
 
 public class Vendor

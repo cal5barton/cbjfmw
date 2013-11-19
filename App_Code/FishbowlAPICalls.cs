@@ -18,7 +18,7 @@ public class FishbowlServer
     private string loginCommand { get; set; }
 
 
-    public void Connect(string serverIP, int port, string username, string password, string command)
+    public void Connect(string serverIP, int port, string username, string password)
     {
         key = "";
 
@@ -44,15 +44,6 @@ public class FishbowlServer
             
             key = pullKey(connectionObject.sendCommand(loginCommand));
             
-        }
-
-        if (key != "null" && command != null && command != "")
-        {
-            if (command == "customerList")
-            {
-                string customerList = connectionObject.sendCommand(listCustomerName(key));
-               
-            }
         }
 
     }
@@ -100,10 +91,60 @@ public class FishbowlServer
     }
 
     //Customer Name List Call -- Displays a list of all customers
-    // The following generates different querries 
-    private static string listCustomerName(string key)
+    private static string CustomerNameList(string key)
     {
         return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><CustomerNameListRq></CustomerNameListRq></FbiMsgsRq></FbiXml>";
     }
+
+    //Get Specific Customer
+    private static string CustomerSave(string key, Customer customerObj)
+    {
+        StringBuilder xml = new StringBuilder();
+        xml.Append("<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq>");
+        xml.Append("<CustomerSaveRq><Customer><Status>" + customerObj.Status + "</Status>");
+        xml.Append("<DefPaymentTerms>" + customerObj.DefPaymentTerms + "</DefPaymentTerms>");
+        xml.Append("<DefShipTerms>" + customerObj.DefShipTerms + "</DefShipTerms>");
+        xml.Append("<TaxRate>" + customerObj.TaxRate + "</TaxRate>");
+        xml.Append("<Name>" + customerObj.Name + "</Name>");
+        xml.Append("<CreditLimit>" + customerObj.CreditLimit + "</CreditLimit>");
+        xml.Append("<TaxExempt>" + customerObj.TaxExempt + "</TaxExempt>");
+        xml.Append("<TaxExemptNumber>" + customerObj.TaxExemptNumber + "</TaxExemptNumber>");
+        xml.Append("<Note>" + customerObj.Note + "</Note>");
+        xml.Append("<ActiveFlag>" + customerObj.ActiveFlag + "</ActiveFlag>");
+        xml.Append("<DefaultSalesman>" + customerObj.DefSalesman + "</DefaultSalesman>");
+        xml.Append("<DefaultCarrier>" + customerObj.DefCarrier + "</DefaultCarrier>");
+        xml.Append("<JobDepth>" + customerObj.JobDepth + "</JobDepth>");
+        //Add all addresses
+        xml.Append("<Addresses>");
+        
+        foreach(var address in customerObj.customerAddresses)
+        {
+            xml.Append("<Address><Name>" + address.Name + "</Name>"
+            + "<Attn>" + address.Attn + "</Attn>"
+            + "<Street>" + address.Street + "</Street>"
+            + "<City>" + address.City + "</City>"
+            + "<Zip>" + address.Zip + "</Zip>"
+            + "<Default>" + address.Default + "</Default>"
+            + "<Residential>" + address.Residential + "</Residential>"
+            + "<Type>" + address.Type + "</Type>"
+            + "<State><Name>" + address.addressState.Name + "</Name><Code>" + address.addressState.Code + "</Code><CountryID>" + address.addressState.CountryID + "</CountryID></State><Country><Name>" + address.addressCountry.Name + "</Name><Code>" + address.addressCountry.Code + "</Code></Country>"
+            + "<AddressInformationList><AddressInformation><Name>" + address.addressInformation.Name + "</Name><Data>" + address.addressInformation.Data + "</Data><Default>" + address.addressInformation.Default + "</Default><Type>" + address.addressInformation.Type + "</Type></AddressInformation></AddressInformationList></Address>");
+        }
+
+        xml.Append("</Addresses>");
+        
+        //Add custom fields
+        xml.Append("<CustomField><Type>" + customerObj.customerCF.Type + "</Type><Name>" + customerObj.customerCF.Name + "</Name><Info>" + customerObj.customerCF.Info + "</Info></CustomField>");
+        xml.Append("</Customer></CustomerSaveRq></FbiMsgsRq></FbiXml>");
+
+        return xml.ToString();
+    }
+
+    //Vendor Name List Call
+    private static string VendorNameList(string key)
+    {
+        return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><VendorNameListRq></VendorNameListRq></FbiMsgsRq></FbiXml>";
+    }
+
 
 }
