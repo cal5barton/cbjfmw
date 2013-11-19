@@ -22,8 +22,18 @@
             <label for="serverPort">Server Port</label>
             <input type="text" name="serverPort" id="serverPort" value="28192" />
         </div>
+        
+            
+            
+        
+        
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="BottomNavContent" Runat="Server">
+    <div data-role="navbar" data-position="fixed">
+        <ul>
+            <li><a data-role="tab">Login</a></li>
+        </ul>
+    </div>
 </asp:Content>
 
