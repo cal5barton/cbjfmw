@@ -7,7 +7,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     
-    
+    <form action="Default.aspx" method="post" data-transition="pop">
     <div id="detailsTab">
         <div data-role="fieldcontain">
             <label for="username">Username</label>
@@ -25,16 +25,13 @@
             <label for="serverPort">Server Port</label>
             <input type="text" name="serverPort" id="serverPort" value="28192" />
         </div>
-        
-            
-            
-        
+        <input id="login" type="submit" value="Login" data-role="tab" data-inline="true" name="loginUser" />   
         
     </div>
+        
+        </form>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="BottomNavContent" Runat="Server">
-    <div data-role="navbar" data-position="fixed">
-        <input id="login" type="submit" value="Login" data-role="tab" />        
-    </div>
+    
 </asp:Content>
 

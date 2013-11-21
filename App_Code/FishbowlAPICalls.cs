@@ -51,7 +51,7 @@ public class FishbowlServer
 
 
     //Login XML with encryption
-    private String createLoginXML(string username, string password)
+    private static String createLoginXML(string username, string password)
     {
         System.Text.StringBuilder buffer = new System.Text.StringBuilder("<FbiXml><Ticket/><FbiMsgsRq><LoginRq><IAID>");
         buffer.Append("10271731");
@@ -73,7 +73,7 @@ public class FishbowlServer
     }
 
     //Pull the session Key out of the server response string
-    private  String pullKey(String connection)
+    private static String pullKey(String connection)
     {
         String key = "";
         using (XmlReader reader = XmlReader.Create(new StringReader(connection)))
