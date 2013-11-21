@@ -126,7 +126,7 @@ public class Vendor
     public DateTime DateLastModified { get; set; }
     public string LastChangedUser { get; set; }
     public double CreditLimit { get; set; }
-    public string Notes { get; set; }
+    public string Note { get; set; }
     public int AysUserID { get; set; }
     public Boolean ActiveFlag { get; set; }
     public string AccountingID { get; set; }
@@ -134,5 +134,8 @@ public class Vendor
     public string CurrencyName { get; set; }
     public string CurrencyRate { get; set; }
     public int LeadTime { get; set; }
+
+    public List<Address> vendorAddresses { get; set; }
+    public CustomField vendorCF { get; set; }
 }
 
