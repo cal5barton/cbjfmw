@@ -97,13 +97,13 @@ public class FishbowlServer
     }
 
     //Customer Get -- gets specific customer
-    public  string CustomerGet(string key, string customerName)
+    public string CustomerGet(string key, string customerName)
     {
         return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><CustomerGetRq>" + customerName + "</CustomerGetRq></FbiMsgsRq></FbiXml>";
     }
 
     //Customer Save -- saves or adds a customer
-    public  string CustomerSave(string key, Customer customerObj)
+    public string CustomerSave(string key, Customer customerObj)
     {
         StringBuilder xml = new StringBuilder();
         xml.Append("<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq>");

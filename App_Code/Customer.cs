@@ -11,6 +11,7 @@ public class CustomerModule
 {
     FishbowlServer FBserver = new FishbowlServer();
 
+    //Get specific Customer Object
     public Customer getCustomer(string key, string customerName)
     {
         Customer customerObj = new Customer();
@@ -141,6 +142,7 @@ public class CustomerModule
         return customerObj;
     }
 
+    //Gets List of Customer Name strings
     public List<String> getCustomerList(string key)
     {
         List<String> allCustomers = new List<string>();
@@ -158,5 +160,11 @@ public class CustomerModule
         }
 
         return allCustomers;
+    }
+
+    //Save or Create Customer
+    public void saveCustomer(string key, Customer customerObj)
+    {
+        FBserver.CustomerSave(key, customerObj);
     }
 }
