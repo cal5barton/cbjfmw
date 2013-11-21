@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Customers" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="Customer.aspx.cs" Inherits="Customer" %>
+﻿<%@ Page Title="Customers" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="Customer.aspx.cs" Inherits="CustomerPage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" Runat="Server">
     <a href="CustomerDetails.aspx" style="float:right;" data-transition="fade" data-role="button" data-icon="plus" data-iconpos="notext" ></a>
@@ -11,10 +11,9 @@
         }
     </script>
     <form action="CustomerDetails.aspx" method="post" data-transition="pop">
-        <div data-roll="fieldcontain" runat="server">
+        <div id="nameList" data-roll="controlgroup" runat="server">
             No Customers to view...
         </div>
-        <input type="submit" value="Person One" onclick="setHidden(this)">
         <input type="hidden" id="HiddenSelection" name="HiddenSelection" value="" />
     </form>
 </asp:Content>

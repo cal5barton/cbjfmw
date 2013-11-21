@@ -5,15 +5,33 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Customer : System.Web.UI.Page
+public partial class CustomerPage : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        string customerXML = getCustomerList();
+        List<string> customerNames = getCustomerList();
+        string html = "";
+
+        foreach (string name in customerNames)
+        {
+            html = html + String.Format("<input type='submit' value='{0}' onclick='setHidden(this)'>", name);
+        }
+
+        nameList.InnerHtml = html;
     }
 
-    private string getCustomerList()
+    private List<string> getCustomerList()
     {
-        return "";
+        List<string> names = new List<string>();
+
+        names.Add("Customer 1");
+        names.Add("Customer 2");
+        names.Add("Customer 3");
+        names.Add("Customer 4");
+        names.Add("Customer 5");
+        names.Add("Customer 6");
+        names.Add("Customer 7");
+
+        return names;
     }
 }
