@@ -5,19 +5,18 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <script>
-        function setHidden(selName) {
-            alert("called method");
-            SelectedName.value = selName.value;
-            alert(selName.value);
+        function setHidden(passedName) {
+            selName = document.getElementById("HiddenSelection");
+            selName.value = passedName.value;
         }
     </script>
-    <form action="CustomerDetails.aspx" data-transition="pop">
-        <a data-role="button" id="FirstName" onclick="setHidden(this)">First Name</a>
-        <a data-role="button" id="SecondName" onclick="setHidden(this)">Second Name</a>
-        <a data-role="button" id="ThirdName" onclick="setHidden(this)">Third Name</a>
-        <a data-role="button" id="FourthName" onclick="setHidden(this)">Fourth Name</a>
+    <form action="CustomerDetails.aspx" method="post" data-transition="pop">
+        <div data-roll="fieldcontain" runat="server">
+            No Customers to view...
+        </div>
+        <input type="submit" value="Person One" onclick="setHidden(this)">
+        <input type="hidden" id="HiddenSelection" name="HiddenSelection" value="" />
     </form>
-    <input type="hidden" name="SelectedName" value="" />
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="BottomNavContent" Runat="Server">
 </asp:Content>
