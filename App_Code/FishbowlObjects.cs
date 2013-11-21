@@ -99,7 +99,7 @@ public class Customer
     public Boolean ActiveFlag { get; set; }
     public string AccountingID { get; set; }
     public string CurrencyName { get; set; }
-    public string CurrencyRate { get; set; }
+    public double CurrencyRate { get; set; }
     public string DefSalesman { get; set; }
     public string DefCarrier { get; set; }
     public string DefShipService { get; set; }
