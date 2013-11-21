@@ -34,9 +34,7 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="BottomNavContent" Runat="Server">
     <div data-role="navbar" data-position="fixed">
-        <ul>
-            <li><a data-role="tab">Login</a></li>
-        </ul>
+        <input id="login" type="submit" value="Login" data-role="tab" />        
     </div>
 </asp:Content>
 
