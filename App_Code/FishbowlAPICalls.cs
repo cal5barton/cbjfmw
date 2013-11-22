@@ -16,42 +16,63 @@ public class FishbowlServer
     public string key { get; set; }
     public string serverMessage { get; set; }
     public string loginCommand { get; set; }
+    public string serverIP { get; set; }
+    public int serverPort { get; set; }
+    public string username { get; set; }
+    public string password { get; set; }
 
+    ConnectionObject connectionObj = new ConnectionObject("localhost", 28192);
 
-    public void Connect(string serverIP, int port, string username, string password)
-    {
-        key = "";
-
-        //XML Login String
-        loginCommand = createLoginXML(username, password);
-        ConnectionObject connectionObject = new ConnectionObject(serverIP, port);
-
-        //Send Login Command once to get Fishbowl Server Application to recoginize connection attempt
-        //or pull the key off the line if connection is already established
-        try
-        {
-            key = pullKey(connectionObject.sendCommand(loginCommand));
-
-            if (key == "null")
-            {
-                throw new System.ArgumentException("Please accept the connection under integrated applications on the Fishbowl Server application");
-            }
-
-        }
-        catch (Exception ex)
-        {
-            serverMessage = ex.Message;
-            
-            key = pullKey(connectionObject.sendCommand(loginCommand));
-            
-        }
-
-    }
     
+    //Send Request
+    public String SendRequest(string request)
+    {
+        //ConnectionObject connectionObj = new ConnectionObject(serverIP, serverPort);
+        string response = "<root></root>";
 
+
+        if (request == "login")
+        {
+            //XML Login String
+            loginCommand = createLoginXML(username, password);
+
+            //Send Login Command once to get Fishbowl Server Application to recoginize connection attempt
+            //or pull the key off the line if connection is already established
+            try
+            {
+                key = pullKey(connectionObj.sendCommand(loginCommand));
+
+                if (key == "null")
+                {
+                    throw new System.ArgumentException("Please accept the connection under integrated applications on the Fishbowl Server application");
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                serverMessage = ex.Message;
+
+                key = pullKey(connectionObj.sendCommand(loginCommand));
+                
+            }
+        }
+        else
+        {
+            response = connectionObj.sendCommand(listCustomerName(key));
+        }
+
+        
+        return response;
+    }
+
+    // The following generates different querries 
+    private static string listCustomerName(string key)
+    {
+        return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><CustomerNameListRq></CustomerNameListRq></FbiMsgsRq></FbiXml>";
+    }
 
     //Login XML with encryption
-    private String createLoginXML(string username, string password)
+    private static String createLoginXML(string username, string password)
     {
         System.Text.StringBuilder buffer = new System.Text.StringBuilder("<FbiXml><Ticket/><FbiMsgsRq><LoginRq><IAID>");
         buffer.Append("10271731");
@@ -73,37 +94,71 @@ public class FishbowlServer
     }
 
     //Pull the session Key out of the server response string
-    private  String pullKey(String connection)
+    private static String pullKey(String connection)
     {
         String key = "";
         using (XmlReader reader = XmlReader.Create(new StringReader(connection)))
         {
-            while (reader.Read())
+            if (connection != null)
             {
-                //if (reader.NodeType == XmlNodeType.Element && reader.Name.Equals("Key"))
-                if (reader.Name.Equals("Key") && reader.Read())
+                while (reader.Read())
                 {
-                    return reader.Value.ToString();
+                    //if (reader.NodeType == XmlNodeType.Element && reader.Name.Equals("Key"))
+                    if (reader.Name.Equals("Key") && reader.Read())
+                    {
+                        return reader.Value.ToString();
+                    }
                 }
             }
         }
         return key;
     }
 
+    //Gets List of Customer Name strings
+    public List<String> getCustomerList()
+    {
+        List<String> allCustomers = new List<string>();
+        string request = CustomerNameList();
+        string response = "";
+       
+        response = SendRequest(request);
+        response.Replace("\n    ", "");
+        //Read xml response
+        using (XmlReader reader = XmlReader.Create(new StringReader(response)))
+        {
+
+            if (response != null)
+            {
+                while (reader.Read())
+                {
+                    if (reader.Name.Equals("Name") && reader.Read())
+                    {
+                        if (!reader.Value.ToString().Contains("\'"))
+                        {
+                            allCustomers.Add(reader.Value.ToString());
+                        }
+                    }
+                }
+            }
+        }
+
+        return allCustomers;
+    }
+    
     //Customer Name List Call -- Displays a list of all customers
-    public string CustomerNameList(string key)
+    public string CustomerNameList()
     {
         return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><CustomerNameListRq></CustomerNameListRq></FbiMsgsRq></FbiXml>";
     }
 
     //Customer Get -- gets specific customer
-    public  string CustomerGet(string key, string customerName)
+    public string CustomerGet(string key, string customerName)
     {
         return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><CustomerGetRq>" + customerName + "</CustomerGetRq></FbiMsgsRq></FbiXml>";
     }
 
     //Customer Save -- saves or adds a customer
-    public  string CustomerSave(string key, Customer customerObj)
+    public string CustomerSave(string key, Customer customerObj)
     {
         StringBuilder xml = new StringBuilder();
         xml.Append("<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq>");
@@ -122,8 +177,8 @@ public class FishbowlServer
         xml.Append("<JobDepth>" + customerObj.JobDepth + "</JobDepth>");
         //Add all addresses
         xml.Append("<Addresses>");
-        
-        foreach(var address in customerObj.customerAddresses)
+
+        foreach (var address in customerObj.customerAddresses)
         {
             xml.Append("<Address><Name>" + address.Name + "</Name>"
             + "<Attn>" + address.Attn + "</Attn>"
@@ -138,14 +193,14 @@ public class FishbowlServer
         }
 
         xml.Append("</Addresses>");
-        
+
         //Add custom fields
         xml.Append("<CustomField><Type>" + customerObj.customerCF.Type + "</Type><Name>" + customerObj.customerCF.Name + "</Name><Info>" + customerObj.customerCF.Info + "</Info></CustomField>");
         xml.Append("</Customer></CustomerSaveRq></FbiMsgsRq></FbiXml>");
 
         return xml.ToString();
     }
-
+    
     //Vendor Name List Call
     public  string VendorNameList(string key)
     {
@@ -197,5 +252,7 @@ public class FishbowlServer
 
         return xml.ToString();
     }
+
+
 
 }

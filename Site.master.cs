@@ -63,6 +63,8 @@ namespace MobileApp
                     throw new InvalidOperationException("Validation of Anti-XSRF token failed.");
                 }
             }
+
+            
         }
 
         protected void Page_Load(object sender, EventArgs e)

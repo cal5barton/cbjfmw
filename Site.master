@@ -57,7 +57,7 @@
         </div>
         <br />
         <div data-role="controlgroup">
-            <a href="Settings.aspx" data-role="button" data-icon="gear" data-iconpos="right">Settings</a>
+            <a href="Default.aspx" data-role="button" data-icon="gear" data-iconpos="right">Settings</a>
         </div>
     </div>
 </div>
