@@ -16,52 +16,46 @@ public class FishbowlServer
     public string key { get; set; }
     public string serverMessage { get; set; }
     public string loginCommand { get; set; }
-    public string serverIP { get; set; }
-    public int serverPort { get; set; }
-    public string username { get; set; }
-    public string password { get; set; }
-
+    private string serverIP { get; set; }
+    private int serverPort { get; set; }
+    private string username { get; set; }
+    private string password { get; set; }    
     ConnectionObject connectionObj = new ConnectionObject("localhost", 28192);
 
+    //Login Method
+    public String Login(string serverIP, int serverPort, string username, string password)
+    {
+        //XML Login String
+        loginCommand = createLoginXML(username, password);
+
+        //Send Login Command once to get Fishbowl Server Application to recoginize connection attempt
+        //or pull the key off the line if connection is already established
+        try
+        {
+            key = pullKey(connectionObj.sendCommand(loginCommand));
+
+            if (key == "null")
+            {
+                throw new System.ArgumentException("Please accept the connection under integrated applications on the Fishbowl Server application");
+            }
+
+        }
+        catch (Exception ex)
+        {
+            serverMessage = ex.Message;
+
+            key = pullKey(connectionObj.sendCommand(loginCommand));
+
+        }
+
+        return key;
+    }
     
     //Send Request
     public String SendRequest(string request)
     {
-        //ConnectionObject connectionObj = new ConnectionObject(serverIP, serverPort);
         string response = "<root></root>";
-
-
-        if (request == "login")
-        {
-            //XML Login String
-            loginCommand = createLoginXML(username, password);
-
-            //Send Login Command once to get Fishbowl Server Application to recoginize connection attempt
-            //or pull the key off the line if connection is already established
-            try
-            {
-                key = pullKey(connectionObj.sendCommand(loginCommand));
-
-                if (key == "null")
-                {
-                    throw new System.ArgumentException("Please accept the connection under integrated applications on the Fishbowl Server application");
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                serverMessage = ex.Message;
-
-                key = pullKey(connectionObj.sendCommand(loginCommand));
-                
-            }
-        }
-        else
-        {
-            response = connectionObj.sendCommand(listCustomerName(key));
-        }
-
-        
+        response = connectionObj.sendCommand(request);
         return response;
     }
 
@@ -122,7 +116,7 @@ public class FishbowlServer
         string response = "";
        
         response = SendRequest(request);
-        response.Replace("\n    ", "");
+
         //Read xml response
         using (XmlReader reader = XmlReader.Create(new StringReader(response)))
         {
@@ -133,15 +127,14 @@ public class FishbowlServer
                 {
                     if (reader.Name.Equals("Name") && reader.Read())
                     {
-                        if (!reader.Value.ToString().Contains("\'"))
-                        {
-                            allCustomers.Add(reader.Value.ToString());
-                        }
+                        
+                        allCustomers.Add(reader.Value.ToString());
+                        
                     }
                 }
             }
         }
-
+        allCustomers.Sort();
         return allCustomers;
     }
     

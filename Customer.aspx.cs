@@ -30,18 +30,4 @@ public partial class CustomerPage : System.Web.UI.Page
 
     }
 
-    private List<string> getCustomerList()
-    {
-        List<string> names = new List<string>();
-
-        names.Add("Customer 1");
-        names.Add("Customer 2");
-        names.Add("Customer 3");
-        names.Add("Customer 4");
-        names.Add("Customer 5");
-        names.Add("Customer 6");
-        names.Add("Customer 7");
-
-        return names;
-    }
 }
