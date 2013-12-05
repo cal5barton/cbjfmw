@@ -1,9 +1,7 @@
-﻿<%@ Page Title="New Customer" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="CustomerDetails.aspx.cs" Inherits="CustomerDetailsPage" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="VendorDetails.aspx.cs" Inherits="VendorDetails" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" Runat="Server">
 </asp:Content>
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <script>
         function select_address() {
@@ -117,9 +115,7 @@
             <input type="text" name="zip" id="zip" style="display:inline-block; float:left; width:100px;" size="5" maxlength="5" value="" runat="server" />
         </div>
     </div>
-
 </asp:Content>
-
 <asp:Content ID="Content3" ContentPlaceHolderID="BottomNavContent" Runat="Server">
     <div data-role="navbar" data-position="fixed">
         <ul>
@@ -128,3 +124,4 @@
         </ul>
     </div>
 </asp:Content>
+
