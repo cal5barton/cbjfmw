@@ -9,12 +9,18 @@ public partial class CustomerDetailsPage : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Request.Form["HiddenSelection"] != null)
+        if (Session["FishbowlServer"] != null)
         {
-            string customerName = Request.Form["HiddenSelection"];
+            var fbServer = Session["FishbowlServer"] as FishbowlServer;
 
-            Page.Title = String.Format("{0} Details", customerName);
+            if (Request.Form["HiddenSelection"] != null)
+            {
+                string customerName = Request.Form["HiddenSelection"];
 
+                Page.Title = String.Format("{0} Details", customerName);
+                string response = fbServer.getCustomer(customerName);
+
+            }
         }
 
         //Customer customer = getCustomerDetails(stuff Callen needs);

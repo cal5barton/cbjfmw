@@ -6,6 +6,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Xml;
 using System.IO;
+using System.Xml.Linq;
 
 /// <summary>
 /// Contains the API calls to send and receive data to Fishbowl Server application.
@@ -117,25 +118,43 @@ public class FishbowlServer
        
         response = SendRequest(request);
 
-        //Read xml response
-        using (XmlReader reader = XmlReader.Create(new StringReader(response)))
-        {
+        XDocument doc = XDocument.Parse(response);
+        var ns = doc.Root.GetDefaultNamespace();
+        var objects = doc.Descendants(ns + "Name");
+        allCustomers = doc.Root.Descendants("Name")
+                .Select(element => element.Value).ToList();
 
-            if (response != null)
-            {
-                while (reader.Read())
-                {
-                    if (reader.Name.Equals("Name") && reader.Read())
-                    {
+
+        //Read xml response
+        //using (XmlReader reader = XmlReader.Create(new StringReader(response)))
+        //{
+
+        //    if (response != null)
+        //    {
+        //        while (reader.Read())
+        //        {
+        //            if (reader.Name.Equals("Name") && reader.Read())
+        //            {
                         
-                        allCustomers.Add(reader.Value.ToString());
+        //                allCustomers.Add(reader.Value.ToString());
                         
-                    }
-                }
-            }
-        }
+        //            }
+        //        }
+        //    }
+        //}
         allCustomers.Sort();
         return allCustomers;
+    }
+
+    //Gets Specific Customer
+    public string getCustomer(string customer)
+    {
+        string request = CustomerGet(customer);
+        string response = "";
+
+        response = SendRequest(request);
+
+        return response;
     }
     
     //Customer Name List Call -- Displays a list of all customers
@@ -145,9 +164,9 @@ public class FishbowlServer
     }
 
     //Customer Get -- gets specific customer
-    public string CustomerGet(string key, string customerName)
+    public string CustomerGet(string customerName)
     {
-        return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><CustomerGetRq>" + customerName + "</CustomerGetRq></FbiMsgsRq></FbiXml>";
+        return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><CustomerGetRq><Name>" + customerName + "</Name></CustomerGetRq></FbiMsgsRq></FbiXml>";
     }
 
     //Customer Save -- saves or adds a customer
