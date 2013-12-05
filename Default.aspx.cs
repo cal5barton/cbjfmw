@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 public partial class Settings : System.Web.UI.Page
 {
-    FishbowlServer fbServer = new FishbowlServer();
+    //FishbowlServer fbServer = new FishbowlServer();
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -28,9 +28,9 @@ public partial class Settings : System.Web.UI.Page
                         {
                             int port = Convert.ToInt32(Request.Form["serverPort"]);
 
-                            fbServer.Login(serverIP, port, username, password);
+                            //fbServer.Login(serverIP, port, username, password);
 
-                            Session["FishbowlServer"] = fbServer;
+                            //Session["FishbowlServer"] = fbServer;
                             Response.Redirect("~/Customer.aspx");
                         }
                     }
