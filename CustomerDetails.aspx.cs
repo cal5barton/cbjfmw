@@ -18,7 +18,7 @@ public partial class CustomerDetailsPage : System.Web.UI.Page
                 string customerName = Request.Form["HiddenSelection"];
 
                 Page.Title = String.Format("{0} Details", customerName);
-                string response = fbServer.getCustomer(customerName);
+                Customer customerObj = fbServer.getCustomer(customerName);
 
             }
         }

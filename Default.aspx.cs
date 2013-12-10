@@ -7,35 +7,25 @@ using System.Web.UI.WebControls;
 
 public partial class Settings : System.Web.UI.Page
 {
-    //FishbowlServer fbServer = new FishbowlServer();
+    FishbowlServer fbServer = new FishbowlServer();
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
-            if (Request.Form["username"] != null)
+
+        if (Request.Form["username"] != null)
+        {
+            string username = Request.Form["username"].ToString();
+
+            if (Request.Form["password"] != null)
             {
-                string username = Request.Form["username"].ToString();
+                string password = Request.Form["password"].ToString();
 
-                if (Request.Form["password"] != null)
-                {
-                    string password = Request.Form["password"].ToString();
+                fbServer.Login(username, password);
 
-                    if (Request.Form["serverIP"] != null)
-                    {
-                        string serverIP = Request.Form["serverIP"].ToString();
-
-                        if (Request.Form["serverPort"] != null)
-                        {
-                            int port = Convert.ToInt32(Request.Form["serverPort"]);
-
-                            //fbServer.Login(serverIP, port, username, password);
-
-                            //Session["FishbowlServer"] = fbServer;
-                            Response.Redirect("~/Customer.aspx");
-                        }
-                    }
-                }
+                Session["FishbowlServer"] = fbServer;
+                Response.Redirect("~/Customer.aspx");
             }
+        }
         
     }
 }

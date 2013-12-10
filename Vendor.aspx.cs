@@ -9,15 +9,27 @@ public partial class Vendor : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        List<string> customerNames = getVendorList();
-        string html = "";
 
-        foreach (string name in customerNames)
+        if (Session["FishbowlServer"] != null)
         {
-            html = html + String.Format("<input type=\"submit\" value=\"{0}\" onclick=\"setHidden(this)\">", name);
+            var fbServer = Session["FishbowlServer"] as FishbowlServer;
+
+            List<string> vendorNames = fbServer.getVendorList();
+            //List<string> customerNames = getCustomerList();
+            string html = "";
+
+            foreach (string name in vendorNames)
+            {
+                html = html + String.Format("<input type='submit' value=\"{0}\" onclick='setHidden(this)'>", name);
+            }
+
+            nameList.InnerHtml = html;
+        }
+        else
+        {
+            Response.Redirect("~/Default.aspx");
         }
 
-        nameList.InnerHtml = html;
     }
 
     private List<string> getVendorList()
