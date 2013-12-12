@@ -22,6 +22,13 @@ public class Address
     public Country addressCountry { get; set; }
     public AddressInformation addressInformation { get; set; }
 
+    public Address()
+    {
+        addressState = new State();
+        addressCountry = new Country();
+        addressInformation = new AddressInformation();
+    }
+
     public class TempAccount
     {
         public int ID { get; set; }
@@ -110,6 +117,12 @@ public class Customer
 
     public List<Address> customerAddresses { get; set; }
     public CustomField customerCF { get; set; }
+
+    public Customer()
+    {
+        customerAddresses = new List<Address>();
+        customerAddresses.Add(new Address());
+    }
 }
 
 public class Vendor
