@@ -18,14 +18,14 @@
                 <label for="password">Password</label>
                 <input type="text" name="password" id="password" placeholder="Password" />
             </div>
-            <div data-role="fieldcontain">
+            <%--<div data-role="fieldcontain">
                 <label for="serverIP">Server IP</label>
                 <input type="text" name="serverIP" id="serverIP" placeholder="Server IP" />
             </div>
             <div data-role="fieldcontain">
                 <label for="serverPort">Server Port</label>
                 <input type="text" name="serverPort" id="serverPort" value="28192" />
-            </div>
+            </div>--%>
             <input id="login" type="submit" value="Login" data-role="tab" data-inline="true" name="loginUser" />   
         
         </div>

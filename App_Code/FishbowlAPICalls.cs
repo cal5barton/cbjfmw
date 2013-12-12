@@ -24,7 +24,7 @@ public class FishbowlServer
     ConnectionObject connectionObj = new ConnectionObject("localhost", 28192);
 
     //Login Method
-    public String Login(string serverIP, int serverPort, string username, string password)
+    public String Login(string username, string password)
     {
         //XML Login String
         loginCommand = createLoginXML(username, password);
@@ -119,42 +119,183 @@ public class FishbowlServer
         response = SendRequest(request);
 
         XDocument doc = XDocument.Parse(response);
-        var ns = doc.Root.GetDefaultNamespace();
-        var objects = doc.Descendants(ns + "Name");
+        
         allCustomers = doc.Root.Descendants("Name")
                 .Select(element => element.Value).ToList();
 
-
-        //Read xml response
-        //using (XmlReader reader = XmlReader.Create(new StringReader(response)))
-        //{
-
-        //    if (response != null)
-        //    {
-        //        while (reader.Read())
-        //        {
-        //            if (reader.Name.Equals("Name") && reader.Read())
-        //            {
-                        
-        //                allCustomers.Add(reader.Value.ToString());
-                        
-        //            }
-        //        }
-        //    }
-        //}
         allCustomers.Sort();
         return allCustomers;
     }
 
     //Gets Specific Customer
-    public string getCustomer(string customer)
+    public Customer getCustomer(string customer)
     {
+        Customer customerObj = new Customer();
+
         string request = CustomerGet(customer);
         string response = "";
 
         response = SendRequest(request);
 
-        return response;
+        //Read xml response
+                XmlReader reader = XmlReader.Create(new StringReader(response));
+
+                while (reader.Read())
+                {
+                    if (reader.NodeType == XmlNodeType.Element)
+                    {
+                        if (reader.Name == "CustomerID")
+                        {
+                            customerObj.CustomerID = reader.ReadElementContentAsInt();
+                        }
+                        else if (reader.Name == "AccountID")
+                        {
+                            customerObj.AccountID = reader.ReadElementContentAsInt();
+                        }
+                        else if (reader.Name == "Status")
+                        {
+                            customerObj.Status = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "DefPaymentTerms")
+                        {
+                            customerObj.DefPaymentTerms = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "DefShipTerms")
+                        {
+                            customerObj.DefShipTerms = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "TaxRate")
+                        {
+                            customerObj.TaxRate = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "Name")
+                        {
+                            customerObj.Name = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "Number")
+                        {
+                            customerObj.Number = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "DateCreated")
+                        {
+                            customerObj.DateCreated = reader.ReadElementContentAsDateTime();
+                        }
+                        else if (reader.Name == "DateLastModified")
+                        {
+                            customerObj.DateLastModified = reader.ReadElementContentAsDateTime();
+                        }
+                        else if (reader.Name == "LastChangedUser")
+                        {
+                            customerObj.LastChangedUser = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "CreditLimit")
+                        {
+                            customerObj.CreditLimit = reader.ReadElementContentAsDouble();
+                        }
+                        else if (reader.Name == "TaxExempt")
+                        {
+                            customerObj.TaxExempt = reader.ReadElementContentAsBoolean();
+                        }
+                        else if (reader.Name == "TaxExemptNumber")
+                        {
+                            customerObj.TaxExemptNumber = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "Note")
+                        {
+                            customerObj.Note = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "ActiveFlag")
+                        {
+                            customerObj.ActiveFlag = reader.ReadElementContentAsBoolean();
+                        }
+                        else if (reader.Name == "AccountingID")
+                        {
+                            customerObj.AccountingID = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "CurrencyName")
+                        {
+                            customerObj.CurrencyName = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "CurrencyRate")
+                        {
+                            customerObj.CurrencyRate = reader.ReadElementContentAsDouble();
+                        }
+                        else if (reader.Name == "DefaultSalesman")
+                        {
+                            customerObj.DefSalesman = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "DefaultCarrier")
+                        {
+                            customerObj.DefCarrier = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "DefaultShipService")
+                        {
+                            customerObj.DefShipService = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "JobDepth")
+                        {
+                            customerObj.JobDepth = reader.ReadElementContentAsInt();
+                        }
+                        else if (reader.Name == "ParentID")
+                        {
+                            customerObj.ParentID = reader.ReadElementContentAsInt();
+                        }
+                        else if (reader.Name == "PipelineAccount")
+                        {
+                            customerObj.PipelineAccount = reader.ReadElementContentAsInt();
+                        }
+                        else if (reader.Name == "URL")
+                        {
+                            customerObj.URL = reader.ReadElementContentAsString();
+                        }
+                        else if (reader.Name == "Addresses")
+                        {
+
+                        }
+                        else if (reader.Name == "CustomFields")
+                        {
+
+                        }
+                    }
+                }
+
+                return customerObj;
+
+        //XDocument doc = XDocument.Parse(response);
+
+        ////Store elements in Customer Object
+        ////if (doc.Root.Descendants("Name").Single().Value.ToString() != null && doc.Root.Descendants("Name").Single().Value.ToString() != "")
+        ////{
+        //string value = doc.Root.Descendants("TaxExempt").Single().Value;
+        //    customerObj.CustomerID = Convert.ToInt32(doc.Root.Descendants("CustomerID").Single().Value);
+        //    customerObj.AccountID = Convert.ToInt32(doc.Root.Descendants("AccountID").Single().Value);
+        //    customerObj.Status = doc.Root.Descendants("Status").Single().Value;
+        //    customerObj.DefPaymentTerms = doc.Root.Descendants("DefPaymentTerms").Single().Value;
+        //    customerObj.DefShipTerms = doc.Root.Descendants("DefShipTerms").Single().Value;
+        //    customerObj.TaxRate = doc.Root.Descendants("TaxRate").Single().Value;
+        //    customerObj.Name = doc.Root.Descendants("Name").First().Value;
+        //    customerObj.Number = doc.Root.Descendants("Number").Single().Value;
+        //    customerObj.DateLastModified = Convert.ToDateTime(doc.Root.Descendants("DateLastModified").Single().Value);
+        //    customerObj.LastChangedUser = doc.Root.Descendants("LastChangedUser").Single().Value;
+        //    customerObj.CreditLimit = Convert.ToDouble(doc.Root.Descendants("CreditLimit").Single().Value);
+        //    customerObj.TaxExempt = Convert.ToBoolean(doc.Root.Descendants("TaxExempt").Single().Value);
+        //    customerObj.TaxExemptNumber = doc.Root.Descendants("TaxExemptNumber").Single().Value;
+        //    customerObj.Note = doc.Root.Descendants("Note").Single().Value;
+        //    customerObj.ActiveFlag = Convert.ToBoolean(doc.Root.Descendants("ActiveFlag").Single().Value);
+        //    customerObj.AccountingID = doc.Root.Descendants("AccountingID").Single().Value;
+        //    customerObj.CurrencyName = doc.Root.Descendants("CurrencyName").Single().Value;
+        //    customerObj.CurrencyRate = Convert.ToDouble(doc.Root.Descendants("CurrencyRate").Single().Value);
+        //    customerObj.DefSalesman = doc.Root.Descendants("DefaultSalesman").Single().Value;
+        //    customerObj.DefCarrier = doc.Root.Descendants("DefaultCarrier").Single().Value;
+        //    customerObj.DefShipService = doc.Root.Descendants("DefaultShipService").Single().Value;
+        //    customerObj.JobDepth = Convert.ToInt32(doc.Root.Descendants("JobDepth").Single().Value);
+        //    customerObj.ParentID = Convert.ToInt32(doc.Root.Descendants("ParentID").Single().Value);
+        //    customerObj.PipelineAccount = Convert.ToInt32(doc.Root.Descendants("PipelineAccount").Single().Value);
+        //    customerObj.URL = doc.Root.Descendants("URL").Single().Value;
+        ////}
+
+
+        //return customerObj;
     }
     
     //Customer Name List Call -- Displays a list of all customers
@@ -214,17 +355,34 @@ public class FishbowlServer
     }
     
     //Vendor Name List Call
-    public  string VendorNameList(string key)
+    public  string VendorNameList()
     {
         return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><VendorNameListRq></VendorNameListRq></FbiMsgsRq></FbiXml>";
+    }
+
+    //Gets List of Vendor Name strings
+    public List<String> getVendorList()
+    {
+        List<String> allVendors = new List<string>();
+        string request = VendorNameList();
+        string response = "";
+
+        response = SendRequest(request);
+
+        XDocument doc = XDocument.Parse(response);
+
+        allVendors = doc.Root.Descendants("Name")
+                .Select(element => element.Value).ToList();
+
+        allVendors.Sort();
+        return allVendors;
     }
 
     //Vendor Get -- gets specific vendor
     public  string VendorGet(string key, string vendorName)
     {
-        return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><CustomerGetRq>" + vendorName + "</CustomerGetRq></FbiMsgsRq></FbiXml>";
+        return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><VendorGetRq>" + vendorName + "</VendorGetRq></FbiMsgsRq></FbiXml>";
     }
-
 
     //Vendor Save -- saves or creates vendor
     public  string VendorSave(string key, Vendor vendorObj)
@@ -265,6 +423,9 @@ public class FishbowlServer
         return xml.ToString();
     }
 
-
-
+    //Sales Rep List
+    public string GetSalesRepList()
+    {
+        return "<FbiXml><Ticket><Key>" + key + "</Key></Ticket><FbiMsgsRq><ExecuteQueryRq><Query></Query></ExecuteQueryRq></FbiMsgsRq></FbiXml>";
+    }
 }

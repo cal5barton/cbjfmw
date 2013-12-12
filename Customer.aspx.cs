@@ -9,25 +9,25 @@ public partial class CustomerPage : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //if (Session["FishbowlServer"] != null)
-        //{
-            //var fbServer = Session["FishbowlServer"] as FishbowlServer;
-            
-            //List<string> customerNames = fbServer.getCustomerList();
-            List<string> customerNames = getCustomerList();
+        if (Session["FishbowlServer"] != null)
+        {
+            var fbServer = Session["FishbowlServer"] as FishbowlServer;
+
+            List<string> customerNames = fbServer.getCustomerList();
+            //List<string> customerNames = getCustomerList();
             string html = "";
 
             foreach (string name in customerNames)
             {
-                html = html + String.Format("<input type='submit' value='{0}' onclick='setHidden(this)'>", name);
+                html = html + String.Format("<input type='submit' value=\"{0}\" onclick='setHidden(this)'>", name);
             }
 
             nameList.InnerHtml = html;
-        //}
-        //else
-        //{
-        //    Response.Redirect("~/Default.aspx");
-        //}
+        }
+        else
+        {
+            Response.Redirect("~/Default.aspx");
+        }
 
     }
 
