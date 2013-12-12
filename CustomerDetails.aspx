@@ -2,9 +2,6 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" Runat="Server">
-</asp:Content>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
     <script>
         function select_address() {
             document.getElementById('detailsTab').hidden = true;
@@ -20,6 +17,10 @@
                 );
         }
     </script>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" Runat="Server">
+    
     
     <!-- Details Tab -->
     <div id="detailsTab" onload="init_function()">

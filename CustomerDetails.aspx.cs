@@ -14,8 +14,8 @@ public partial class CustomerDetailsPage : System.Web.UI.Page
     {
         if (Session["FishbowlServer"] != null)
         {
-        var fbServer = Session["FishbowlServer"] as FishbowlServer;
-        customer = new Customer();
+            var fbServer = Session["FishbowlServer"] as FishbowlServer;
+            customer = new Customer();
             if (Request.Form["HiddenSelection"] != null)
             {
                 string customerName = Request.Form["HiddenSelection"];
@@ -24,6 +24,10 @@ public partial class CustomerDetailsPage : System.Web.UI.Page
                 customer = fbServer.getCustomer(customerName);
 
             }
+        }
+        else
+        {
+            Response.Redirect("~/Default.aspx");
         }
     }
 
